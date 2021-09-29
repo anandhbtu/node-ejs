@@ -1,13 +1,13 @@
 //USER.JS in MODELS/USER.JS
 const mongoose = require("mongoose");
 
-const StudentSchema = new mongoose.Schema(
+const studentSchema = new mongoose.Schema(
   {
-  studentName: {
-    type: String,
-    required: true,
-  },
-  fatherName: {
+    studentName: {
+      type: String,
+      required: true,
+    },
+    fatherName: {
       type: String,
       required: true,
     },
@@ -16,47 +16,50 @@ const StudentSchema = new mongoose.Schema(
       required: true,
     },
     address: {
-    type: String,
-  },
-  city: {
       type: String,
+      required:false,
+    },
+    city: {
+      type: String,
+      required:false,
     },
     state: {
       type: String,
+      required:false,
     },
     pin: {
-    type: String,
-    required: true,
-   
-  },
-  phoneNo:{
-    type: String,
-    required: true,
-  },
-  email:{
-    type: String,
-    required: true,
-    index: {
-      unique: true,
-    },
-  },
-  classs:{
-    type: String,
-    required: false,
-  },
-  marks: {
       type: String,
+      required: true,
+    },
+    phoneNo: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      index: {
+        unique: true,
+      },
+    },
+    classs: {
+      type: String,
+      required: false,
+    },
+    marks: {
+      type: String,
+      required:false,
     },
     dateEnrolled: {
-    type: Date,
-    default: Date.now,
+      type: Date,
+      default: Date.now,
+    },
   },
-},
   {
     timestamps: true,
-    //note: isko schema k bahar likhenge
+    
   }
 );
-const Student = mongoose.model("Student", StudentSchema);
+const student = mongoose.model("enroll", studentSchema);
 
-module.exports = Student;
+module.exports = student;

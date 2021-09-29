@@ -1,47 +1,33 @@
 "use strict";
-
 const express = require("express");
 require("express-async-errors");
-const bodyParser = require("body-parser");
-const app = express();
-
-
+const session = require("express-session");
 const morgan = require("morgan");
 
-app.set("view engine", "ejs");
+const app = express();
 
-//database connection
 require("./mongo");
-
-//Models
-
-
 require("./models/student");
 
 
-require("./models/enroll");
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json()).use(morgan());
+app.use(session({
+  secret:"my secret key",
+  saveUninitialized:true,
+  resave:false,
+}))
+app.use((req,res,next)=>{
+  res.locals.message = req.session.message;
+  delete req.session.message;
+  next()
+})
 
-//MidleWare
-app.use(bodyParser.urlencoded({extended:true}))
-app.use(bodyParser.json()).use(morgan());
+app.set("view engine", "ejs");
 
 
-app.use("/dashboard", require("./routes/students"));
+app.use("", require("./routes/student"));
 
-app.use("/", require("./routes/enroll"));
-// var items =["Anand Bhardwaj","Rohit"]
-
-// app.get('/', (req, res) => {
-//   let data="testing data"
-// res.render('list',{kindofdata:data,newListItems:items})
-// })
-
-// app.post("/",(req,res)=>{
-//   var   item = req.body.newItem
-//   items.push(item)
-//    console.log('item :>> ', item);
-//    res.redirect("/")
-//    })
 
 app.use((req, res, next) => {
   req.status = 404;
@@ -65,7 +51,6 @@ app.use((error, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3300;
-
 app.listen(PORT, () =>
-  console.log(`..........................server connect on port ${PORT}`)
+  console.log(`server connect on port ${PORT}`)
 );
