@@ -9,11 +9,11 @@ router.post("/add",async(req,res)=>{
     let data = req.body 
     delete data.button; 
      const result =  validateSchema.validateAsync(data)
-     const doesExist =  await Student.find({email:data.email})
+     const doesExist =  await Student.findOne({email:data.email})
     
      result.then((message)=>{
          
-        if(doesExist.length!=0){
+        if(doesExist!=null){
             req.session.message={
                 type:"danger",
                 message:"This email has been aleady resistered!"
